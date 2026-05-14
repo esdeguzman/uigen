@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.yml|*.yaml) python3 -c \"import sys, yaml; yaml.safe_load(sys.stdin)\" < \"$f\" || exit 2;; esac; }",
+            "statusMessage": "Validating YAML..."
+          }
+        ]
+      }
+    ]
+  }
+}
